@@ -40,3 +40,26 @@ def author(request, pk):
     }
 
     return render(request, 'main/author.html', context)
+
+
+def create_article(request):
+
+#Fetching data from DB and sending it to frontend
+    authors = models.Author.objects.all()
+    context = {
+        "authors" : authors
+    }
+
+#Fetching data from form and updating it to DB
+    if request.method == "POST":
+        article_data = {
+            "title" : request.POST['title'],
+            "content" : request.POST['content'],
+        }
+        article = models.Article.objects.create(**article_data)
+        author = models.Author.objects.get(pk = request.POST['author'])
+        article.authors.set([author])     #Since Author is a many to many field, it expects a list as argument
+        context["success"] = True
+
+ 
+    return render(request, 'main/create_article.html', context)

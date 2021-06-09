@@ -1,0 +1,40 @@
+{% extends 'main/base.html' %}
+
+{% block content %}
+
+<h1>Create new Article</h1>
+
+{% if success %}
+
+    <p class="text-success">Form submitted successfully!!</p>
+
+{% endif %}
+
+<form method = "POST">
+{% csrf_token %}
+
+  <div class="form-group py-2">
+    <label for="exampleFormControlInput1"><h5>Title</h5></label>
+    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="title" name = "title">
+  </div>
+  <div class="form-group py-2"><h5>Select Author</h5></label>
+    <select class="form-control" id="exampleFormControlSelect1" name="author">
+        <option value="0">---Select from the list---</option>
+      {% for author in authors %}
+      
+        <option value="{{ author.id }}">{{ author.name }}</option>
+      
+      {% endfor %}
+    </select>
+  </div>
+  <div class="form-group py-2">
+    <label for="exampleFormControlTextarea1"><h5>Content</h5></label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" name="content" rows = "6" placeholder="Type your content here"></textarea>
+  </div>
+  <div class="form-group py-2">
+    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    <button type="reset" class="btn btn-primary mb-2">Reset</button>
+  </div>
+</form>
+
+{% endblock content %}
